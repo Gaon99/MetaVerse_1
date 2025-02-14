@@ -18,7 +18,7 @@ public class Obstacle : MonoBehaviour
     public Vector3 SetRandomPlace(Vector3 lastPosition, int obstacleCount)
     {
         float Holesize = Random.Range(HoleSizeMin, HoleSizeMax);
-        float BalancedHoleSize = Holesize / 3f;
+        float BalancedHoleSize = Holesize / 2.5f;
 
         TopObject.localPosition = new Vector3(0, BalancedHoleSize);
         BottomObject.localPosition = new Vector3(0, -BalancedHoleSize);
