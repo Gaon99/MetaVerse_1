@@ -15,9 +15,10 @@ public class Player : MonoBehaviour
     bool IsFlap = false;
 
     public bool godMode = false;
-
+    GameManager gameManager;
     void Start()
     {
+        gameManager = GameManager.Instance;
         animator = transform.GetComponentInChildren<Animator>();
         _rigidbody = transform.GetComponent<Rigidbody2D>();
 
@@ -40,13 +41,14 @@ public class Player : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0))
                 {
-
-                }
-                else
-                {
-                    deathCooldown -= Time.deltaTime;
+                    gameManager.Restart();
                 }
             }
+            else
+            {
+                deathCooldown -= Time.deltaTime;
+            }
+            
         }
         else if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0)))
         {
@@ -84,6 +86,8 @@ public class Player : MonoBehaviour
         animator.SetInteger("IsDie", 1);
         IsDead = true;
         deathCooldown = 1f;
+
+        gameManager.GameOver();
 
     }
 
