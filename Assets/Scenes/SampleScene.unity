@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 1318166435}
   - component: {fileID: 1318166434}
   m_Layer: 0
-  m_Name: Flat
+  m_Name: Flap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -342,7 +342,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 545437237, guid: 8148cd8e5919e384d8623e3d412ee7f2, type: 3}
+  m_Sprite: {fileID: -1855224656, guid: 8148cd8e5919e384d8623e3d412ee7f2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
