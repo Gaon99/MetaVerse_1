@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class TheStack : MonoBehaviour
 {
@@ -21,12 +22,29 @@ public class TheStack : MonoBehaviour
     float SecondaryPosition = 0f;
 
     int StackCount = -1;
+    public int Score { get => StackCount; }
     int ComboCount = 0;
+    public int Combo { get => ComboCount; }
+    public int MaxCombo = 0;
+
+    public int _MaxCombo { get => MaxCombo; }
 
     public Color PrevColor;
     public Color NextColor;
 
     bool IsMovingX = true;
+
+    int bestScore = 0;
+    public int BestScore { get => bestScore; }
+
+    int bestCombo = 0;
+    public int BestCombo { get => bestCombo; }
+
+    private const string BestScoreKey = "BestScore";
+    private const string BestComboKey = "BestCombo";
+
+
+    private bool IsGameOver = true;
 
     void Start()
     {
@@ -35,6 +53,10 @@ public class TheStack : MonoBehaviour
             Debug.Log("OriginBlock is Null");
             return;
         }
+
+        bestScore = PlayerPrefs.GetInt(BestScoreKey);
+        bestCombo = PlayerPrefs.GetInt(BestComboKey);
+
         PrevColor = GetRandomColor();
         NextColor = GetRandomColor();
 
@@ -45,6 +67,7 @@ public class TheStack : MonoBehaviour
     }
     void Update()
     {
+        if (IsGameOver) return;
         if (Input.GetMouseButtonDown(0))
         {
             if (PlaceBlock())
@@ -53,8 +76,11 @@ public class TheStack : MonoBehaviour
             }
             else
             {
-                // 게임 오버
                 Debug.Log("GameOver");
+                UpdateScore();
+                IsGameOver = true;
+                GameOverEffect();
+                UI_Manager.Instance.SetScoreUI();
             }
         }
 
@@ -95,6 +121,7 @@ public class TheStack : MonoBehaviour
 
         IsMovingX = !IsMovingX;
 
+        UI_Manager.Instance.UpdateScore();
         return true;
     }
 
@@ -182,11 +209,12 @@ public class TheStack : MonoBehaviour
                         ),
                     new Vector3(DeltaX, 1, StackBounds.y)
                 );
-
+                ComboCount = 0;
 
             }
             else
             {
+                ComboCheck();
                 LastBlock.localPosition = PrevBlockPosition + Vector3.up;
             }
         }
@@ -218,9 +246,11 @@ public class TheStack : MonoBehaviour
                 CreateRubble(new Vector3(LastPosition.x, LastPosition.y,
                     IsNegativeNum ? LastPosition.z + StackBounds.z / 2 + RubbleHalfScale : LastPosition.z - StackBounds.z / 2 - RubbleHalfScale),
                     new Vector3(StackBounds.x, 1, DeltaZ));
+                ComboCount = 0;
             }
             else
             {
+                ComboCheck();
                 LastBlock.localPosition = PrevBlockPosition + Vector3.up;
             }
         }
@@ -242,5 +272,84 @@ public class TheStack : MonoBehaviour
         gameObject.AddComponent<Rigidbody>();
 
         gameObject.name = "Rubble";
+    }
+
+
+    void ComboCheck()
+    {
+        ComboCount++;
+
+        if (ComboCount > MaxCombo)
+            MaxCombo = ComboCount;
+        if ((ComboCount % 5) == 0)
+        {
+            Debug.Log("5 Combo Success");
+            StackBounds += new Vector3(0.5f, 0.5f);
+            StackBounds.x = (StackBounds.x > BoundSize) ? BoundSize : StackBounds.x;
+            StackBounds.y = (StackBounds.y > BoundSize) ? BoundSize : StackBounds.y;
+        }
+    }
+
+
+    void UpdateScore()
+    {
+        if (bestScore < StackCount)
+        {
+            bestScore = StackCount;
+            bestCombo = MaxCombo;
+
+            PlayerPrefs.SetInt(BestComboKey, bestScore);
+            PlayerPrefs.SetInt(BestScoreKey, bestScore);
+        }
+    }
+
+    void GameOverEffect()
+    {
+        int ChildCount = this.transform.childCount;
+
+        for(int i=1; i<20;i++)
+        {
+            if (ChildCount < i) break;
+
+            GameObject gameObject = transform.GetChild(ChildCount - i).gameObject;
+
+            if (gameObject.name.Equals("Rubble")) continue;
+
+            Rigidbody rigidbody = gameObject.AddComponent<Rigidbody>();
+
+            rigidbody.AddForce((Vector3.up * Random.Range(0, 10f) + Vector3.right * (Random.Range(0, 10f) - 5f))*100f);
+
+            }
+    }
+
+    public void Restart()
+    {
+        int ChildCount = transform.childCount;
+
+        for (int i = 0; i < ChildCount; i++)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
+        IsGameOver = false;
+
+        LastBlock = null;
+        DesiredPosition = Vector3.zero;
+        StackBounds = new Vector3(BoundSize, BoundSize);
+
+        StackCount = -1;
+        IsMovingX = true;
+        BlockTransition = 0f;
+        SecondaryPosition = 0f;
+
+        ComboCount = 0;
+        MaxCombo = 0;
+
+        PrevBlockPosition = Vector3.down;
+
+        PrevColor = GetRandomColor();
+        NextColor = GetRandomColor();
+
+        SpawnBlock();
+        SpawnBlock();
     }
 }
