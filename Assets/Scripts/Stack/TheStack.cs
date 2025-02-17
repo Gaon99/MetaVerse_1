@@ -26,6 +26,7 @@ public class TheStack : MonoBehaviour
     public Color PrevColor;
     public Color NextColor;
 
+    bool IsMovingX = true;
 
     void Start()
     {
@@ -38,19 +39,30 @@ public class TheStack : MonoBehaviour
         NextColor = GetRandomColor();
 
         PrevBlockPosition = Vector3.down;
+        SpawnBlock();
+        SpawnBlock();
 
-        Spawn_Block();
     }
-
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0))
         {
-            Spawn_Block();
+            if (PlaceBlock())
+            {
+                SpawnBlock();
+            }
+            else
+            {
+                // 게임 오버
+                Debug.Log("GameOver");
+            }
         }
+
+        MoveBlock();
         transform.position = Vector3.Lerp(transform.position, DesiredPosition, StackMovingSpeed * Time.deltaTime);
     }
-    bool Spawn_Block()
+
+    bool SpawnBlock()
     {
         if (LastBlock != null)
             PrevBlockPosition = LastBlock.localPosition;
@@ -80,6 +92,8 @@ public class TheStack : MonoBehaviour
         BlockTransition = 0f;
 
         LastBlock = NewTrans;
+
+        IsMovingX = !IsMovingX;
 
         return true;
     }
@@ -113,6 +127,120 @@ public class TheStack : MonoBehaviour
             NextColor = GetRandomColor();
         }
     }
+
+    void MoveBlock()
+    {
+        BlockTransition += Time.deltaTime * BlockMovingSpeed;
+
+        float MovePosition = Mathf.PingPong(BlockTransition, BoundSize) - BoundSize / 2;
+
+        if (IsMovingX)
+        {
+            LastBlock.localPosition = new Vector3(MovePosition * MovingBoundsSize, StackCount, SecondaryPosition);
+        }
+        else
+        {
+            LastBlock.localPosition = new Vector3(SecondaryPosition, StackCount, -MovePosition * MovingBoundsSize);
+        }
+    }
+
+
+    bool PlaceBlock()
+    {
+        Vector3 LastPosition = LastBlock.localPosition;
+
+        if (IsMovingX)
+        {
+            float DeltaX = PrevBlockPosition.x - LastPosition.x;
+            bool IsNegativeNum = (DeltaX < 0) ? true : false;
+
+            DeltaX = Mathf.Abs(DeltaX);
+
+            if (DeltaX > ErrorMargin)
+            {
+                StackBounds.x -= DeltaX;
+
+                if (StackBounds.x <= 0)
+                {
+                    return false;
+                }
+                float middle = (PrevBlockPosition.x + LastPosition.x) / 2;
+                LastBlock.localScale = new Vector3(StackBounds.x, 1, StackBounds.y);
+
+                Vector3 TempPos = LastBlock.localPosition;
+                TempPos.x = middle;
+
+                LastBlock.localPosition = LastPosition = TempPos;
+
+                float RubbleHalfScale = DeltaX / 2f;
+                CreateRubble(
+                    new Vector3(
+                        IsNegativeNum
+                        ? LastPosition.x + StackBounds.x / 2 + RubbleHalfScale
+                        : LastPosition.x - StackBounds.x / 2 - RubbleHalfScale
+                        , LastPosition.y, LastPosition.z
+                        ),
+                    new Vector3(DeltaX, 1, StackBounds.y)
+                );
+
+
+            }
+            else
+            {
+                LastBlock.localPosition = PrevBlockPosition + Vector3.up;
+            }
+        }
+        else
+        {
+            float DeltaZ = PrevBlockPosition.z - LastPosition.z;
+            bool IsNegativeNum = (DeltaZ < 0) ? true : false;
+
+            DeltaZ = Mathf.Abs(DeltaZ);
+            if (DeltaZ > ErrorMargin)
+            {
+                StackBounds.y -= DeltaZ;
+
+                if (StackBounds.y <= 0)
+                {
+                    return false;
+                }
+
+                float middle = (PrevBlockPosition.z + LastPosition.z) / 2;
+                LastBlock.localScale = new Vector3(StackBounds.x, 1, StackBounds.y);
+
+                Vector3 TempPos = LastBlock.localPosition;
+                TempPos.z = middle;
+
+                LastBlock.localPosition = LastPosition = TempPos;
+
+                float RubbleHalfScale = DeltaZ / 2f;
+
+                CreateRubble(new Vector3(LastPosition.x, LastPosition.y,
+                    IsNegativeNum ? LastPosition.z + StackBounds.z / 2 + RubbleHalfScale : LastPosition.z - StackBounds.z / 2 - RubbleHalfScale),
+                    new Vector3(StackBounds.x, 1, DeltaZ));
+            }
+            else
+            {
+                LastBlock.localPosition = PrevBlockPosition + Vector3.up;
+            }
+        }
+
+        SecondaryPosition = (IsMovingX) ? LastBlock.localPosition.x : LastBlock.localPosition.z;
+
+        return true;
+    }
+
+    void CreateRubble(Vector3 pos, Vector3 scale)
+    {
+        GameObject gameObject = Instantiate(LastBlock.gameObject);
+        gameObject.transform.parent = this.transform;
+
+        gameObject.transform.localPosition = pos;
+        gameObject.transform.localScale = scale;
+        gameObject.transform.localRotation = Quaternion.identity;
+
+        gameObject.AddComponent<Rigidbody>();
+
+        gameObject.name = "Rubble";
+    }
 }
-
-
