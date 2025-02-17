@@ -23,6 +23,10 @@ public class TheStack : MonoBehaviour
     int StackCount = -1;
     int ComboCount = 0;
 
+    public Color PrevColor;
+    public Color NextColor;
+
+
     void Start()
     {
         if (OriginBlock == null)
@@ -30,6 +34,8 @@ public class TheStack : MonoBehaviour
             Debug.Log("OriginBlock is Null");
             return;
         }
+        PrevColor = GetRandomColor();
+        NextColor = GetRandomColor();
 
         PrevBlockPosition = Vector3.down;
 
@@ -38,11 +44,11 @@ public class TheStack : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)&& Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
             Spawn_Block();
         }
-        transform.position = Vector3.Lerp(transform.position,DesiredPosition,StackMovingSpeed*Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, DesiredPosition, StackMovingSpeed * Time.deltaTime);
     }
     bool Spawn_Block()
     {
@@ -60,6 +66,8 @@ public class TheStack : MonoBehaviour
             return false;
         }
 
+        ColorChange(NewBlock);
+
         NewTrans = NewBlock.transform;
         NewTrans.parent = this.transform;
         NewTrans.localPosition = PrevBlockPosition + Vector3.up;
@@ -75,5 +83,36 @@ public class TheStack : MonoBehaviour
 
         return true;
     }
+
+    Color GetRandomColor()
+    {
+        float R = Random.Range(100f, 250f) / 255f;
+        float G = Random.Range(100f, 250f) / 255f;
+        float B = Random.Range(100f, 250f) / 255f;
+        return new Color(R, G, B);
+    }
+
+    void ColorChange(GameObject gameObject)
+    {
+        Color ApplyColor = Color.Lerp(PrevColor, NextColor, (StackCount % 11) / 10f);
+
+        Renderer renderer = gameObject.GetComponent<Renderer>();
+
+        if (renderer == null)
+        {
+            Debug.Log("Renderer is Null");
+            return;
+        }
+
+        renderer.material.color = ApplyColor;
+        Camera.main.backgroundColor = ApplyColor - new Color(0.3f, 0.3f, 0.3f);
+
+        if (ApplyColor.Equals(NextColor))
+        {
+            PrevColor = NextColor;
+            NextColor = GetRandomColor();
+        }
+    }
 }
+
 
