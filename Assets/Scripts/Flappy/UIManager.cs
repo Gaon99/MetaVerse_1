@@ -6,29 +6,25 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI ScoreText;
-    public TextMeshProUGUI RestartText;
+    public TextMeshProUGUI BestScoreText;
 
     void Start()
     {
-        if (RestartText == null)
-        {
-            Debug.LogError("RestartTxt is Null");
-        }
-        if (ScoreText ==  null)
-        {
-            Debug.LogError("ScoreTxt is Null");
-        }
-
-        RestartText.gameObject.SetActive(false);
+        Transform panelTransform = transform.Find("Panel");
+        
+        ScoreText = panelTransform.Find("CurrentScore")?.GetComponent<TextMeshProUGUI>();
+        BestScoreText = panelTransform.Find("BestScore")?.GetComponent<TextMeshProUGUI>();
     }
 
     public void SetRestart()
     {
-        RestartText.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
-    public void UpdateScore(int score)
+    public void UpdateScore(int score, int bestscore)
     {
         ScoreText.text = score.ToString();
+        BestScoreText.text = bestscore.ToString();
     }
+
 }
 

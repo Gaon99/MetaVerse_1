@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DisplayScore : MonoBehaviour
 {
+    private const string StackHighScoreKey = "StackHighScore";
+    private const string FlappyHighScoreKey = "FlappyHighScore";
+
     // Start is called before the first frame update
     void Start()
     {
