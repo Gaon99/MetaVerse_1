@@ -7,8 +7,11 @@ public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI ScoreText;
     public TextMeshProUGUI BestScoreText;
+    private const string BestScoreKey = "BestScore";
 
     public GameObject Panel;
+
+    DisplayScore displayScore;
 
     private void Awake()
     {
@@ -20,6 +23,7 @@ public class UIManager : MonoBehaviour
     }
     void Start()
     {
+        displayScore = GetComponent<DisplayScore>();
         Panel.SetActive(false);
     }
 
@@ -31,6 +35,12 @@ public class UIManager : MonoBehaviour
     {
         ScoreText.text = score.ToString();
         BestScoreText.text = bestscore.ToString();
+        if (bestscore < score)
+        {
+            bestscore = score;
+            PlayerPrefs.SetInt(BestScoreKey, bestscore);
+            displayScore.SaveHighScore(bestscore, 0);
+        }
     }
 }
 

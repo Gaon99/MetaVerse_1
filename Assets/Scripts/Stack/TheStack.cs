@@ -43,11 +43,14 @@ public class TheStack : MonoBehaviour
     private const string BestScoreKey = "BestScore";
     private const string BestComboKey = "BestCombo";
 
+    DisplayScore displayScore = null;
 
     private bool IsGameOver = true;
 
     void Start()
     {
+        displayScore = GetComponentInChildren<DisplayScore>(true);
+
         if (OriginBlock == null)
         {
             Debug.Log("OriginBlock is Null");
@@ -300,6 +303,7 @@ public class TheStack : MonoBehaviour
 
             PlayerPrefs.SetInt(BestComboKey, bestCombo);
             PlayerPrefs.SetInt(BestScoreKey, bestScore);
+            displayScore.SaveHighScore(bestScore,0);
         }
     }
 
