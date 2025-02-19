@@ -944,7 +944,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11362fceaa29551458091b8454701faf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OriginBlock: {fileID: 5828898279067069617, guid: b1c0128fb884f8246aa75676c19e0a87, type: 3}
+  OriginBlock: {fileID: 5828898279067069617, guid: b1c0128fb884f8246aa75676c19e0a87,
+    type: 3}
   MaxCombo: 0
   PrevColor: {r: 0, g: 0, b: 0, a: 0}
   NextColor: {r: 0, g: 0, b: 0, a: 0}
@@ -7693,6 +7694,7 @@ GameObject:
   - component: {fileID: 2137674450}
   - component: {fileID: 2137674449}
   - component: {fileID: 2137674448}
+  - component: {fileID: 2137674451}
   m_Layer: 5
   m_Name: ExitBtn
   m_TagString: Untagged
@@ -7763,7 +7765,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2137674449}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2137674451}
+        m_TargetAssemblyTypeName: GameSelection, Assembly-CSharp
+        m_MethodName: LoadMiniGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2137674449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7802,6 +7816,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2137674446}
   m_CullTransparentMesh: 1
+--- !u!114 &2137674451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137674446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd4bfedae0b71b84185da4703f52ceee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Scenename: MetaScene
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

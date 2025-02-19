@@ -39,7 +39,6 @@ public class ScoreUI : BaseUI
         comboTxt.text = combo.ToString();
         bestScoreTxt.text = bestScore.ToString();
         bestComboTxt.text = bestCombo.ToString();
-
     }
     void OnclickStartBtn()
     {

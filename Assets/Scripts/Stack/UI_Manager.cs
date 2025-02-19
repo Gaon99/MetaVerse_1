@@ -26,6 +26,7 @@ public class UI_Manager : MonoBehaviour
 
     ScoreUI scoreUI = null;
 
+    GameSelection gameSelection = null;
     TheStack theStack = null;
     private void Awake()
     {
@@ -38,6 +39,7 @@ public class UI_Manager : MonoBehaviour
         gameUI?.Init(this);
         scoreUI = GetComponentInChildren<ScoreUI>(true);
         scoreUI?.Init(this);
+        gameSelection = GetComponentInChildren<GameSelection>(true);
 
         ChangeState(UIState.Home);
     }
@@ -59,11 +61,7 @@ public class UI_Manager : MonoBehaviour
 
     public void OnClickExit()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit(); // 어플리케이션 종료
-#endif
+        gameSelection.LoadMiniGame();
     }
 
     public void UpdateScore()

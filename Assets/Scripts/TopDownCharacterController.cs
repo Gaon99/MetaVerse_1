@@ -24,6 +24,7 @@ public class TopDownCharacterController : MonoBehaviour
         {
             dir.x = 1;
             animator.SetInteger("Direction", 1);
+          
         }
 
         if (Input.GetKey(KeyCode.W))
@@ -40,6 +41,7 @@ public class TopDownCharacterController : MonoBehaviour
         dir.Normalize();
         animator.SetBool("IsMoving", dir.magnitude > 0);
 
+    
         GetComponent<Rigidbody2D>().velocity = speed * dir;
     }
 }

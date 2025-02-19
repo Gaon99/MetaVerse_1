@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        uiManager.Panel.SetActive(true);
     }
 
     public void AddScore(int score)
@@ -43,12 +43,4 @@ public class GameManager : MonoBehaviour
         CurrentScore += score;
         uiManager.UpdateScore(CurrentScore,BestScore_Flappy);
     }
-
-    public void RestartScene()
-    {
-        // 현재 씬을 다시 로드
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-
 }

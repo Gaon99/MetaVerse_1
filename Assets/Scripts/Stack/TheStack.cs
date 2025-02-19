@@ -298,7 +298,7 @@ public class TheStack : MonoBehaviour
             bestScore = StackCount;
             bestCombo = MaxCombo;
 
-            PlayerPrefs.SetInt(BestComboKey, bestScore);
+            PlayerPrefs.SetInt(BestComboKey, bestCombo);
             PlayerPrefs.SetInt(BestScoreKey, bestScore);
         }
     }
