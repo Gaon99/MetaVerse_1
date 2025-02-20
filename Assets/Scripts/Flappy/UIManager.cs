@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI ScoreText;
     public TextMeshProUGUI BestScoreText;
+    public TextMeshProUGUI IngameScoreText;
 
     public GameObject Panel;
 
@@ -24,18 +25,19 @@ public class UIManager : MonoBehaviour
         Panel.SetActive(false);
     }
 
-    public void SetRestart()
-    {
-       Panel.SetActive(true); // Panel È°¼ºÈ­
-    }
     public void UpdateScore(int score, int bestscore)
     {
         if (score > bestscore)
         {
             bestscore = score;
         }
-        ScoreText.text = score.ToString();
-        BestScoreText.text = bestscore.ToString();
+
+        ScoreText.text = $"CurrentScore : {score.ToString()}";
+        BestScoreText.text = $"BestScore : {bestscore.ToString()}";
+    }
+    public void IngameScore(int score)
+    {
+        IngameScoreText.text = score.ToString();
     }
 }
 
