@@ -34,7 +34,7 @@ Unity 메타버스 제작
 
 3. Flappy 미니게임을 제작하며, 아래와 같은 구문 제작 -> 클릭을 해도 점프가 작동되지 않았음 (IsFlap = true가 작동 안함) -> else if 구문이 if(IsDead)와 연결이 되어야하는데, if(deathCooldown<=0)와 연결이 되어있었음 -> 줄 맞춤을 다시 해서, 다시 if문에 맞춰 놓음
    -> 제작을 위해 빈 곳을 두다보니 이처럼 실수할 수도 있다는걸 자각
-   
+```ruby
  if (IsDead)
 {
     if (deathCooldown <= 0)
@@ -53,6 +53,7 @@ else if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0)))
 {
     IsFlap = true;
 }
+```
 
 4. 오브젝트의 움직임에 따라 카메라를 이동시키는 스크립트 제작 -> 카메라가 움직이질 않음 -> Target에 하위 개체를 넣어봤더니 움직임 -> 스크립트 및 컴포넌트를 상위 개체가 아닌 하위 개체에 넣었고, Target에는 상위 개체를 넣음 -> 스크립트 및 컴포넌트를 상위 개체로 옮겨줌    
 
