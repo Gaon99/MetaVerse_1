@@ -60,7 +60,7 @@ else if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0)))
    Bg Looper를 이용해 배경 및 장애물들을 회수해, 진행하는 방향 정면에 붙여줘야함 -> 장애물은 이동이 되나, 배경이 움직이질 않음 -> 충돌의 부재를 깨닫고, 배경에 컴포넌트 추가 -> 캐릭터가 배경을 뚫고 천장으로 올라감 -> Collider 중 IsTrigger를 통해, Enter시에, 회수 하도록 작성했으나
    IsTrigger를 안 켰음 -> 천장과 바닥을 뚫음 -> 배경에서 천장과 바닥 역할을 하는 오브젝트도 넣었으나, 이에 Polygon Collider를 IsTrigger를 켜버림 -> Polygon의 IsTrigger를 꺼주고 Box Collider를 컴포넌트에 넣어 다시 충돌 처리를 해줬음 -> 해결 완료 (해당 충돌 컴포넌트는 모두 2D)
 
-##사용한 에셋 출처
+## 사용한 에셋 출처
 맵 https://assetstore.unity.com/packages/2d/environments/pixel-art-top-down-basic-187605
 
 캐릭터 https://assetstore.unity.com/packages/2d/characters/miniature-army-2d-v-1-medieval-style-72935
