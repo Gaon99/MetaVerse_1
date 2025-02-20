@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         uiCanvas.SetActive(true);
+        
         uiManager.UpdateScore(CurrentScore, B_Score);
 
     }
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
     public void AddScore(int score)
     {
         CurrentScore += score;
+        uiManager.IngameScore(CurrentScore);
         if (B_Score < CurrentScore)
         {
             PlayerPrefs.SetInt(FlappyBestScoreKey, CurrentScore);
