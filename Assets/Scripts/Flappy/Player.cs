@@ -39,23 +39,19 @@ public class Player : MonoBehaviour
         {
             if (deathCooldown <= 0)
             {
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0))
-                {
-
-                    gameManager.Restart();
-                }
+                gameManager.Restart();
             }
             else
             {
                 deathCooldown -= Time.deltaTime;
             }
-            
+
         }
         else if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButton(0)))
         {
             IsFlap = true;
         }
-        
+
     }
 
     public void FixedUpdate()

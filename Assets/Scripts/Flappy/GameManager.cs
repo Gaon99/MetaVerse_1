@@ -9,11 +9,12 @@ public class GameManager : MonoBehaviour
 
     private int CurrentScore = 0;
 
-    private int BestScore_Flappy = 0;
-    public int BestScore { get => BestScore_Flappy; }
+    private int B_Score = 0;
+    public int BestScore { get => B_Score; }
+
     UIManager uiManager;
     public UIManager UImanager {  get { return uiManager; } }
-    private const string BestScoreKey = "BestScore";
+    private const string FlappyBestScoreKey = "BestScore_Flappy";
     public GameObject uiCanvas;
 
     private void Awake()
@@ -23,14 +24,16 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        uiManager.UpdateScore(0,BestScore);
+        B_Score = PlayerPrefs.GetInt(FlappyBestScoreKey);
 
-        BestScore_Flappy = PlayerPrefs.GetInt(BestScoreKey);
+        uiManager.UpdateScore(0,B_Score);
     }
 
     public void GameOver()
     {
         uiCanvas.SetActive(true);
+        uiManager.UpdateScore(CurrentScore, B_Score);
+
     }
 
     public void Restart()
@@ -41,6 +44,10 @@ public class GameManager : MonoBehaviour
     public void AddScore(int score)
     {
         CurrentScore += score;
-        uiManager.UpdateScore(CurrentScore,BestScore_Flappy);
+        if (B_Score < CurrentScore)
+        {
+            PlayerPrefs.SetInt(FlappyBestScoreKey, CurrentScore);
+        }
+  
     }
 }
