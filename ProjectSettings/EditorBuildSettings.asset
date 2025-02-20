@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MetaScene.unity
+    path: Assets/01. Scenes/MetaScene.unity
     guid: 86e89bd9e4a9c5245a015cf17e3c0aae
   - enabled: 1
-    path: Assets/Scenes/FlappyScene.unity
+    path: Assets/01. Scenes/FlappyScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/StackScene.unity
+    path: Assets/01. Scenes/StackScene.unity
     guid: e550bb3d9a3d85243b20fffc54c858f5
   m_configObjects: {}
