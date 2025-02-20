@@ -4,7 +4,7 @@
 1. [프로젝트 소개](#프로젝트-소개)
 2. [주요기능](#주요기능)
 3. [개발기간](#개발기간)
-12. [Trouble Shooting](#trouble-shooting)
+4. [Trouble Shooting](#trouble-shooting)
     
 ## 👨‍🏫 프로젝트 소개
 Unity 메타버스 제작
